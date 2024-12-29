@@ -1,7 +1,7 @@
-import { likesReply } from './database/likes'
 import { Tweet } from './models/Tweet'
 import { User } from './models/User'
 import { TweetType } from './types/types'
+import { likes } from './database/likes'
 
 
 // criando usuários
@@ -10,8 +10,8 @@ const user10 = new User('Theo duplicado', 'theo@gmail.com', 'Theo lucca', 'theo1
 const user02 = new User('Wesley', 'Wesley@gmail.com', 'Wesley souza', 'wesley123')
 const user03 = new User('Fulano', 'fulano@hotmail.com', 'Fulano silva', '123fulano')
 const user04 = new User('Ciclano', 'ciclano@hotmail.com', 'Ciclano pereira', '123ciclano')
-const user05 = new User('Beltrano', 'beltrano@hotmail.com', 'Beltrano santos', '123beltrano')
-const user06 = new User('Maria', 'maria@hotmail.com', 'Maria barreto', '123maria')
+const user05 = new User('Beltrano', 'beltrano@hotmail.com', 'Beltrano barreto', '123beltrano')
+const user06 = new User('tailine', 'tailine@hotmail.com', 'tailine ribeiro', '123maria')
 
 // incluindo usuários no array users[] e verifica se username é único 
 user01.validateUser()
@@ -39,7 +39,7 @@ const tweet11 = new Tweet(user04, `eu sou bom no que faço!`)
 const tweet12 = new Tweet(user05, `procurando nemo...`)
 const tweet13 = new Tweet(user05, `boa noite`)
 const tweet14 = new Tweet(user06, `ola pessoas`)
-const tweet15 = new Tweet(user06, `comendo sishi`)
+const tweet15 = new Tweet(user06, `comendo sushi`)
 const tweet16 = new Tweet(user06, `amo animais!`)
 const tweet17 = new Tweet(user02, `Feliz natal e feliz ano novo!!!`)
 
@@ -101,6 +101,7 @@ user03.follow(user06)
 user06.follow(user01)
 user02.follow(user06)
 user01.follow(user10) // erro não pode seguir quem não pertence ao array de users
+user01.follow(user01) // erro usuário não pode seguir a si mesmo
 
 
 
@@ -145,20 +146,20 @@ tweet02.like(user06)
 tweet11.like(user05)
 
 // like no reply  ******************
-reply01.liketweetReply(user06)
-reply02.liketweetReply(user03)
-reply03.liketweetReply(user02)
-reply04.liketweetReply(user03)
-reply05.liketweetReply(user06)
-reply06.liketweetReply(user05)
-reply07.liketweetReply(user01)
-reply08.liketweetReply(user02)
-reply09.liketweetReply(user03)
-reply10.liketweetReply(user02)
-reply11.liketweetReply(user05)
-reply12.liketweetReply(user06)
-reply13.liketweetReply(user01)
-reply14.liketweetReply(user02)
+reply01.like(user06)
+reply02.like(user03)
+reply03.like(user02)
+reply04.like(user03)
+reply05.like(user06)
+reply06.like(user05)
+reply07.like(user01)
+reply08.like(user02)
+reply09.like(user03)
+reply10.like(user02)
+reply11.like(user05)
+reply12.like(user06)
+reply13.like(user01)
+reply14.like(user02)
 
 
 
@@ -207,12 +208,12 @@ reply14.liketweetReply(user02)
 // user03.showTweets()
 // user04.showTweets()
 // user05.showTweets()
-// user06.showTweets()
+user06.showTweets()
 
 
 // metodo 03 user showfeed()   ***********
-// user01.showFeed()
-user02.showFeed()
+user01.showFeed()
+// user02.showFeed()
 // user03.showFeed()
 // user04.showFeed()
 // user05.showFeed()
@@ -221,6 +222,6 @@ user02.showFeed()
 
 
 
-console.log(likesReply.length)
+console.log(likes.length)
 
-reply01.show()
+// reply02.show()

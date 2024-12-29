@@ -3,18 +3,22 @@ import { tweets } from '../database/tweets'
 import { TweetType } from '../types/types'
 import { User } from "./User"
 import { Like } from "./Like"
-import { likes, likesReply } from "../database/likes"
+import { likes } from "../database/likes"
 
+abstract class message {
+    constructor(public _content: string) {}
 
+    abstract like(user: User): void
+}
 
-export class Tweet {
-    private readonly _id: string
+export class Tweet extends message {
+    private readonly _id: string = randomUUID()
     private _replies: Tweet[] = []
     constructor(
         private _user: User,
-        private _content: string,
+        public _content: string,
         private _type: TweetType = TweetType.normal 
-    ) {this._id = randomUUID(), this._replies = []} 
+    ) {super(_content)} 
 
     get user(): User {
         return this._user
@@ -47,52 +51,49 @@ export class Tweet {
 
 
     reply(tweet: Tweet) {
-        this._replies.push(tweet)
+        this._replies.push(tweet)  // funciona com o array de replies dentro de um tweet especifico
         // console.log(`${user.userName} respondeu: ${content}`)
+
+        tweets.push(tweet)  // teste mudando o reply para dentro do array de tweets.ts
     }
 
 
     like(user: User) {
         const verifyTweet = tweets.some(tweet => this.id === tweet.id)
+        // const verifyReply = tweets.some(tweet => tweet._replies.includes(this, 0))
         const newLike = new Like(user, this)
         const validateLike = likes.some(like => like.user.id === user.id && like.tweet.id === this.id)
         
-        if (verifyTweet) {
-            if (validateLike) {
-                console.log(`${user.userName} já curtiu este tweet`);
-              } else {
-                likes.push(newLike)
-            }   
+        if (this._type === 'Normal') {
+            if (verifyTweet) {
+                if (validateLike) {
+                    console.log(`${user.userName} já curtiu este tweet`)
+                } else {
+                    likes.push(newLike)
+                }   
+            } else {
+                console.log('tweet não encontrado!')
+            }
         } else {
-            console.log('tweet não encontrado!')
-        }    
-    }
-
-    liketweetReply(user: User) {
-        const newLike = new Like(user, this)
-        const validateLike = likes.some(like => like.user.id === user.id && like.tweet.id === this.id)
-        
-        if (validateLike) {
-            console.log(`${user.userName} já curtiu este tweet`)
-            return
-          } else {
-            likes.push(newLike)
-            console.log(`${user.userName}: liked ${this._content}`)
-        } 
+            if (validateLike) {
+                console.log(`${user.userName} já curtiu este tweet`)
+            } else {
+                likes.push(newLike)
+            } 
+        }   
     }
 
 
     show() {
         const TweetLikes = likes.filter(like => like.tweet.id === this.id)
-        const firstLike = TweetLikes.length > 0 ? TweetLikes[0].user.nome : null
         
         console.log('          ')
         console.log(`@${this.user.userName}: ${this.content}`)
     
         if (TweetLikes.length > 1) {
-            console.log(`[@${firstLike} and other ${TweetLikes.length - 1} user liked this]`)
+            console.log(`[@${TweetLikes[0].user.userName} and other ${TweetLikes.length - 1} user liked this]`)
         } else if (TweetLikes.length === 1) {
-            console.log(`[@${firstLike} liked this]`)
+            console.log(`[@${TweetLikes[0].user.userName} liked this]`)
         }
     
         this.showReplies()
@@ -103,13 +104,30 @@ export class Tweet {
 
 
     showReplies() {
-        
+        const TweetLikes = likes.filter(like => like.tweet.id === this.id)
+
         if (this.replies.length > 0) {
             this.replies.forEach(reply => {
-              console.log(`    >@${reply.user.userName}: ${reply.content}`)
+
+            const tweetLike02 = likes.filter(like => like.tweet.id === reply._id)
+            console.log(`    >@${reply.user.userName}: ${reply.content}`)
+
+            if (tweetLike02.length > 1) {
+                console.log(`    [@${tweetLike02[0].user.userName} and other ${tweetLike02.length - 1} user liked this]`)
+            } else if (TweetLikes.length === 1) {
+                console.log(`    [@${tweetLike02[0].user.userName} liked this]`)
+            }
+
               if (reply.replies.length > 0) {
                 reply.replies.forEach(reply2 => {
+                    const tweetLike03 = likes.filter(like => like.tweet.id === reply._id)
                     console.log(`      >@${reply2.user.userName}: ${reply2.content}`)
+
+                    if (tweetLike03.length > 1) {
+                        console.log(`      [@${tweetLike03[0].user.userName} and other ${tweetLike03.length - 1} user liked this]`)
+                    } else if (tweetLike03.length === 1) {
+                        console.log(`      [@${tweetLike03[0].user.userName} liked this]`)
+                    }
                 })
               }
             })

@@ -64,7 +64,12 @@ export class User {
 
     follow(user: User) {
         const filter = users.some(u => this.userName === user.userName)
-        if (filter) {
+        const verifyUser = this.id === user.id
+
+        if (verifyUser) {
+            console.log('Usuário não pode seguir a sí mesmo!')
+        
+        } else if (filter) {
             console.log(`este usuário não existe!`)
         } else {
             this._following.push(user)
