@@ -6,7 +6,7 @@ import { likes } from './database/likes'
 
 // criando usuários
 const user01 = new User('Theo', 'theo@gmail.com', 'Theo lucca', 'theo123')
-const user10 = new User('Theo duplicado', 'theo@gmail.com', 'Theo lucca', 'theo123')
+const user10 = new User('Theo duplicado', 'theo@gmail.com', 'Theo lucca', 'theo123')  // usuário cujo userName ja existe (duplicado)
 const user02 = new User('Wesley', 'Wesley@gmail.com', 'Wesley souza', 'wesley123')
 const user03 = new User('Fulano', 'fulano@hotmail.com', 'Fulano silva', '123fulano')
 const user04 = new User('Ciclano', 'ciclano@hotmail.com', 'Ciclano pereira', '123ciclano')
@@ -204,24 +204,17 @@ reply14.like(user02)
 
 // metodo 04 user showTweets()   ***********
 // user01.showTweets()
-// user02.showTweets()
+user02.showTweets()
 // user03.showTweets()
 // user04.showTweets()
 // user05.showTweets()
-user06.showTweets()
+// user06.showTweets()
 
 
 // metodo 03 user showfeed()   ***********
-user01.showFeed()
+// user01.showFeed()
 // user02.showFeed()
 // user03.showFeed()
 // user04.showFeed()
-// user05.showFeed()
+user05.showFeed()
 // user06.showFeed()
-
-
-
-
-console.log(likes.length)
-
-// reply02.show()

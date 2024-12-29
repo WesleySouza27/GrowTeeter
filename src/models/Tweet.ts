@@ -54,7 +54,7 @@ export class Tweet extends message {
         this._replies.push(tweet)  // funciona com o array de replies dentro de um tweet especifico
         // console.log(`${user.userName} respondeu: ${content}`)
 
-        tweets.push(tweet)  // teste mudando o reply para dentro do array de tweets.ts
+        // tweets.push(tweet)
     }
 
 
@@ -63,6 +63,7 @@ export class Tweet extends message {
         // const verifyReply = tweets.some(tweet => tweet._replies.includes(this, 0))
         const newLike = new Like(user, this)
         const validateLike = likes.some(like => like.user.id === user.id && like.tweet.id === this.id)
+
         
         if (this._type === 'Normal') {
             if (verifyTweet) {
@@ -80,7 +81,7 @@ export class Tweet extends message {
             } else {
                 likes.push(newLike)
             } 
-        }   
+        }
     }
 
 
@@ -110,23 +111,23 @@ export class Tweet extends message {
             this.replies.forEach(reply => {
 
             const tweetLike02 = likes.filter(like => like.tweet.id === reply._id)
-            console.log(`    >@${reply.user.userName}: ${reply.content}`)
+            console.log(`  >@${reply.user.userName}: ${reply.content}`)
 
             if (tweetLike02.length > 1) {
-                console.log(`    [@${tweetLike02[0].user.userName} and other ${tweetLike02.length - 1} user liked this]`)
+                console.log(`  [@${tweetLike02[0].user.userName} and other ${tweetLike02.length - 1} user liked this]`)
             } else if (TweetLikes.length === 1) {
-                console.log(`    [@${tweetLike02[0].user.userName} liked this]`)
+                console.log(`  [@${tweetLike02[0].user.userName} liked this]`)
             }
 
               if (reply.replies.length > 0) {
                 reply.replies.forEach(reply2 => {
                     const tweetLike03 = likes.filter(like => like.tweet.id === reply._id)
-                    console.log(`      >@${reply2.user.userName}: ${reply2.content}`)
+                    console.log(`    >@${reply2.user.userName}: ${reply2.content}`)
 
                     if (tweetLike03.length > 1) {
-                        console.log(`      [@${tweetLike03[0].user.userName} and other ${tweetLike03.length - 1} user liked this]`)
+                        console.log(`    [@${tweetLike03[0].user.userName} and other ${tweetLike03.length - 1} user liked this]`)
                     } else if (tweetLike03.length === 1) {
-                        console.log(`      [@${tweetLike03[0].user.userName} liked this]`)
+                        console.log(`    [@${tweetLike03[0].user.userName} liked this]`)
                     }
                 })
               }
